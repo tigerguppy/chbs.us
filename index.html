@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CHBS Generator</title>
+<title>CHBS Generator v6.7</title>
 <meta name="description" content="Client-side composable password, passphrase, and PIN generator inspired by XKCD 936.">
 <style>
 :root{--bg:#0b1020;--panel:#11182b;--panel2:#172033;--panel3:#0e1628;--text:#e8eef8;--muted:#9eb0ca;--line:#27364f;--accent:#7db4ff;--accentText:#06111f;--good:#40d98c;--fair:#ffd166;--bad:#ff7d7d;--warn:#ffd166;--input:#0b1222;--shadow:0 16px 42px rgba(0,0,0,.32);--labelW:150px;--controlH:38px;--radius:10px}
@@ -57,6 +57,14 @@ select{min-width:120px;overflow:hidden;text-overflow:ellipsis}
 @media(max-width:920px){.settingsGrid .subgrid{grid-template-columns:1fr}.presetManagerActions{grid-template-columns:repeat(3,minmax(0,1fr))}.blockControls .col-2,.blockControls .col-3,.blockControls .col-4,.blockControls .col-6,.blockControls .col-8,.blockControls .col-12{grid-column:span 12}.blockControls input,.blockControls select{min-width:0}.blockControls .field>label{min-height:auto}.blockControls .check span,.blockControls .check{white-space:normal}}
 @media(max-width:560px){.presetManagerActions{grid-template-columns:1fr}.rowBtns .posControl{width:100%;display:grid;grid-template-columns:1fr 1fr}.posControl select{width:100%;min-width:0}.contextGrid select{max-width:none}}
 
+/* v6.7 Characters ingredient checkbox fix */
+.checkboxStack{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;width:100%}
+.blockControls .checkboxStack .check{display:flex;align-items:center;justify-content:flex-start;gap:9px;width:100%;min-width:0;min-height:38px;padding:8px 10px}
+.blockControls .checkboxStack .check input{margin:0;flex:0 0 auto;width:auto}
+.blockControls .checkboxStack .check span{display:block;min-width:0;white-space:normal;overflow-wrap:break-word;color:var(--text);line-height:1.2}
+.blockControls .field.col-6 .checkboxStack{grid-template-columns:repeat(2,minmax(140px,1fr))}
+@media(max-width:920px){.blockControls .field.col-6 .checkboxStack{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body><div class="wrap">
@@ -83,7 +91,7 @@ select{min-width:120px;overflow:hidden;text-overflow:ellipsis}
 <section class="card panel" style="margin-top:14px"><h2>Wordlists</h2><p class="hint">Word blocks draw from the selected pool plus custom include words, minus custom exclude words. Select All/None controls are scoped to each group.</p><div id="wordlists"></div></section></aside>
 </main>
 
-<footer class="footer">Inspired by <a href="https://xkcd.com/936/" target="_blank" rel="noopener">XKCD #936</a>. Source: <a href="https://github.com/tigerguppy/chbs.us" target="_blank" rel="noopener">github.com/tigerguppy/chbs.us</a>. All generation runs locally in your browser. <span>Version 6.6</span></footer>
+<footer class="footer">Inspired by <a href="https://xkcd.com/936/" target="_blank" rel="noopener">XKCD #936</a>. Source: <a href="https://github.com/tigerguppy/chbs.us" target="_blank" rel="noopener">github.com/tigerguppy/chbs.us</a>. All generation runs locally in your browser. <span>Version 6.7</span></footer>
 </div>
 <script>
 'use strict';
@@ -159,7 +167,7 @@ function renderBlock(block,i){const div=document.createElement('div');div.classN
  const add=(span,label,html)=>{const f=document.createElement('div');f.className=`field col-${span}`;f.innerHTML=`<label>${label}</label>${html}`;c.appendChild(f)};
  if(!block.position)block.position=(block.placement==='auto'||block.placement==='random')?'random':'fixed';
  if(block.type==='word'){add(3,'Word count <span class="help" title="Number of random words selected for this block.">?</span>',`<input data-k="count" type="number" min="1" max="20" value="${block.count||1}">`);add(4,'Case',`<select data-k="caseMode"><option value="lower">lowercase</option><option value="title">Title Case</option><option value="upper">UPPERCASE</option><option value="camel">Camel Case</option><option value="inverseTitle">iNVERSE tITLE</option><option value="random">Random case</option></select>`)}
- if(block.type==='password'){add(2,'Length',`<input data-k="len" type="number" min="1" max="128" value="${block.len||12}">`);add(2,'Start',`<select data-k="start"><option value="any">Any</option><option value="lower">Lowercase</option><option value="upper">Uppercase</option><option value="number">Number</option><option value="symbol">Symbol</option></select>`);add(2,'End',`<select data-k="end"><option value="any">Any</option><option value="lower">Lowercase</option><option value="upper">Uppercase</option><option value="number">Number</option><option value="symbol">Symbol</option></select>`);add(6,'Character types',`<label class="check"><input data-k="lower" type="checkbox"> Lower</label><label class="check"><input data-k="upper" type="checkbox"> Upper</label><label class="check"><input data-k="numbers" type="checkbox"> Numbers</label><label class="check"><input data-k="symbols" type="checkbox"> Symbols</label><label class="check"><input data-k="ambiguous" type="checkbox"> Exclude ambiguous</label>`);add(12,'Included characters <span class="help" title="Optional explicit character set. When filled, Characters are chosen only from this set. Ignored characters still win and are removed from this set.">?</span>',`<input data-k="included" value="${block.included||''}">`);add(12,'Ignored characters',`<input data-k="ignored" value="${block.ignored||''}">`)}
+ if(block.type==='password'){add(2,'Length',`<input data-k="len" type="number" min="1" max="128" value="${block.len||12}">`);add(2,'Start',`<select data-k="start"><option value="any">Any</option><option value="lower">Lowercase</option><option value="upper">Uppercase</option><option value="number">Number</option><option value="symbol">Symbol</option></select>`);add(2,'End',`<select data-k="end"><option value="any">Any</option><option value="lower">Lowercase</option><option value="upper">Uppercase</option><option value="number">Number</option><option value="symbol">Symbol</option></select>`);add(6,'Character types',`<div class="checkboxStack"><label class="check"><input data-k="lower" type="checkbox"><span>Lower</span></label><label class="check"><input data-k="upper" type="checkbox"><span>Upper</span></label><label class="check"><input data-k="numbers" type="checkbox"><span>Numbers</span></label><label class="check"><input data-k="symbols" type="checkbox"><span>Symbols</span></label><label class="check"><input data-k="ambiguous" type="checkbox"><span>Exclude ambiguous</span></label></div>`);add(12,'Included characters <span class="help" title="Optional explicit character set. When filled, Characters are chosen only from this set. Ignored characters still win and are removed from this set.">?</span>',`<input data-k="included" value="${block.included||''}">`);add(12,'Ignored characters',`<input data-k="ignored" value="${block.ignored||''}">`)}
  if(block.type==='number'||block.type==='pin'){add(3,'Digits',`<input data-k="len" type="number" min="1" max="32" value="${block.len||6}">`);add(3,'Leading zero',`<select data-k="noLeadZero"><option value="true">Avoid leading 0</option><option value="false">Allow leading 0</option></select>`);add(3,'Repeats',`<select data-k="repeatMode"><option value="allowAny">Allow Any</option><option value="allowConsecutive">Allow Consecutive</option><option value="forceRepeat">Force at least one</option><option value="forceConsecutive">Force Consecutive</option><option value="disallowAll">Disallow All</option><option value="disallowConsecutive">Disallow Consecutive</option></select>`);add(3,'Ignored digits',`<input data-k="ignored" value="${block.ignored||''}">`)}
  if(block.type==='symbol'){add(4,'Symbol count',`<input data-k="len" type="number" min="1" max="32" value="${block.len||1}">`);add(8,'Allowed symbols',`<input data-k="chars" value="${block.chars||'!@#$%&*'}">`)}
  if(block.type==='literal'){add(12,'Literal text <span class="help" title="Static text inserted into every generated item. Avoid putting actual secrets here because literals are saved in presets/settings.">?</span>',`<input data-k="text" value="${block.text||''}">`)}
