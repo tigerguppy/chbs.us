@@ -244,22 +244,19 @@ select{min-width:120px;overflow:hidden;text-overflow:ellipsis}
 }
 
 
-/* v6.17.1 Settings section button justification only */
+
+/* v6.17.2 Settings button justification only */
 .settingsGrid .sectionBlock:nth-child(2) .actions{
   display:grid!important;
-  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
   gap:8px!important;
   align-items:stretch!important;
   justify-content:stretch!important;
 }
-.settingsGrid .sectionBlock:nth-child(2) .actions button,
-.settingsGrid .sectionBlock:nth-child(2) .actions .btn{
+.settingsGrid .sectionBlock:nth-child(2) .actions>button,
+.settingsGrid .sectionBlock:nth-child(2) .actions>.btn{
   width:100%!important;
   min-width:0!important;
-  text-align:center!important;
-}
-@media(max-width:560px){
-  .settingsGrid .sectionBlock:nth-child(2) .actions{grid-template-columns:1fr!important;}
 }
 
 </style>
