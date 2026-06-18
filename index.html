@@ -69,6 +69,9 @@ select{min-width:120px;overflow:hidden;text-overflow:ellipsis}
 /* v6.8 definitive layout repair */
 .settingsGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;min-width:0;width:100%}
 .customWordGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px;overflow:hidden}
+.customWordGrid>.sectionBlock{display:flex;flex-direction:column}
+.customWordGrid>.sectionBlock:nth-child(1),.customWordGrid>.sectionBlock:nth-child(3){border-right:1px solid var(--line);padding-right:12px}
+.customWordGrid>.sectionBlock:nth-child(2),.customWordGrid>.sectionBlock:nth-child(4){padding-left:12px}
 .customWordGrid>div{min-width:0;overflow:hidden}
 .customWordGrid .inline{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;width:100%}
 .customWordGrid input,.customWordGrid select{min-width:0;width:100%}
